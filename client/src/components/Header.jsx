@@ -16,23 +16,23 @@ export default function Header() {
         </h1>
        </div>
         </Link>
-        <form action="" className="flex items-center p-3 bg-red-200 rounded-lg ">
+        <form action="" className="flex items-center p-3 rounded-lg bg-slate-200 ">
           <input
             type="text"
             placeholder="Search...."
-            className="w-2 bg-red-200 rounded-lg focus:outline-none sm:w-64 text-slate-800 "
+            className="w-2 rounded-lg bg-slate-200 focus:outline-none sm:w-64 text-slate-800 "
           />
-          <FaSearch className="text-slate-6000" />
+          <FaSearch className="text-slate-600" />
         </form>
         <ul className="flex gap-4">
             
-        <Link to='/home'>
+        <Link to='/'>
         <li className="hidden text-pink-900 sm:inline hover:underline">Home</li>
         </Link>
         <Link to='/about'>
           <li className="hidden text-pink-900 sm:inline hover:underline"> About</li>
           </Link>
-          <Link to='/singin'>
+          <Link to='/signin'>
           <li className="text-pink-900 sm:inline hover:underline">SignIn </li>
           </Link>
         </ul>
