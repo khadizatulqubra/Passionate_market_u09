@@ -57,7 +57,7 @@ export default function SignIn() {
       <form onSubmit={handleSubmit} action=""  className='flex flex-col gap-4'>
        
         <input type="email"  placeholder='email' className='p-3 border rounded-lg ' id='email'  onChange={handleChange}/>
-        <input type="password"  placeholder='password' className='p-3 border rounded-lg ' id='password'  onChange={handleChange}/>
+        <input type="password"   placeholder='password' className='p-3 border rounded-lg ' id='password'  onChange={handleChange}/>
         <button disabled={loading} className='p-3 text-white uppercase bg-pink-900 rounded-lg hover:opacity-95 disabled:opacity-80'> {loading? 'loading...':'Sign Up'} </button>
       </form>
       <div className='flex gap-2 mt-5'>
