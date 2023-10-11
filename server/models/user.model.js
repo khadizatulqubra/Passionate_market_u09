@@ -20,7 +20,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
        
-    }} , 
+    },
+    avatar:
+    {
+    type:String,
+    default:"https://static.vecteezy.com/system/resources/previews/006/735/770/original/beautiful-woman-avatar-profile-icon-vector.jpg",
+    },
+
+} , 
 
     {timestamps:true});
 
