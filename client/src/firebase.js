@@ -4,6 +4,12 @@ import { initializeApp } from "firebase/app";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
+
+//firebase storage
+/* allow read;
+allow write:if 
+request.resource.size < 2* 1024 * 1024 &&
+request.resource.contentType.matches('image/.*') */
 const firebaseConfig = {
   apiKey:import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "mynew-website-78a42.firebaseapp.com",
