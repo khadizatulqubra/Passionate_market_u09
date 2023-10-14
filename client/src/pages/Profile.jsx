@@ -3,7 +3,7 @@ import{useRef, useState ,useEffect}from 'react'
 import{getStorage}from 'firebase/storage';
 import {ref,uploadBytesResumable,getDownloadURL}from 'firebase/storage'
 import { app } from '../firebase';
-import { updateUserStart, updateUserSuccess,updateUserFailure, deleteUserStart, deleteUserFailure, deleteUserSuccess } from '../redux/user/userSlice';
+import { updateUserStart, updateUserSuccess,updateUserFailure, deleteUserStart, deleteUserFailure, deleteUserSuccess, signOutUserStart, signOutUserFailure ,signOutUserSuccess} from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
 
 
@@ -95,6 +95,22 @@ export default function Profile() {
      dispatch( deleteUserFailure(error.message))
     }
   }
+  const handleSignOut=async()=>{
+   try{
+    dispatch(signOutUserStart())
+    const res= await fetch ('/api/auth/signout');
+    const data= await res.json();
+    if (data.success===false){
+      dispatch(deleteUserFailure(data.message));
+      return;
+    }
+    
+    dispatch(signOutUserSuccess(data));
+   }catch (error){
+    dispatch(deleteUserFailure(error.message));
+    
+   }
+  }
 
   return (
     <div className='max-w-lg p-3 mx-auto'>
@@ -121,13 +137,13 @@ export default function Profile() {
         </p>
         <input type="text" placeholder='username' defaultValue={currentUser.username} id='username' className='p-3 m-2 border rounded-lg shadow-xl' onChange={handleChange}/>
         <input type="text" placeholder='email' defaultValue={currentUser.email} id='email' className='p-3 m-2 border rounded-lg shadow-xl' onChange={handleChange}/>
-        <input type="password" placeholder='password' id='password' className='p-3 m-2 border rounded-lg shadow-xl'/>
+        <input type="password" placeholder='password' id='password' className='p-3 m-2 border rounded-lg shadow-xl' onChange={handleChange}/>
         <button disabled ={ loading} className='p-3 m-2 text-white uppercase bg-pink-900 rounded-lg shadow-xl hover:opacity-80'> { loading? 'loading...':'update'}</button>
       </form>
       <div className='flex justify-between mt-5'>
        
       <span className='font-serif text-lg cursor-pointer text-slate-700' onClick={handleDeleteUser} >Delete account</span>
-      <span className='font-serif text-lg cursor-pointer text-slate-700'>Signout</span>
+      <span className='font-serif text-lg cursor-pointer text-slate-700' onClick={handleSignOut}>Signout</span>
 
       </div>
       <p className='mt-5 text-pink-900'>{error?error: ''}</p>
