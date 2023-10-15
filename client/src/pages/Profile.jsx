@@ -5,6 +5,7 @@ import {ref,uploadBytesResumable,getDownloadURL}from 'firebase/storage'
 import { app } from '../firebase';
 import { updateUserStart, updateUserSuccess,updateUserFailure, deleteUserStart, deleteUserFailure, deleteUserSuccess, signOutUserStart, signOutUserFailure ,signOutUserSuccess} from '../redux/user/userSlice';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 
 export default function Profile() {
@@ -118,7 +119,7 @@ export default function Profile() {
       <form  onSubmit={handleSubmit} className='flex flex-col'>
         <input onChange={(e)=>setFile(e.target.files[0])} type="file"  ref={fileRef} hidden accept='image/*'/>
         <img onClick={()=>fileRef.current.click()} className='self-center object-cover w-24 h-24 my-0 mt-2 rounded-full cursor-pointer' src={formData.avatar|| currentUser.avatar}alt="profile" />
-        <p className='self-center text-sm'>
+        <p className='self-center text-sm '>
           {fileUploadError?   
           (<span className='text-red-700 '>
             Error image upload (image must be less than 2 mb)
@@ -138,7 +139,9 @@ export default function Profile() {
         <input type="text" placeholder='username' defaultValue={currentUser.username} id='username' className='p-3 m-2 border rounded-lg shadow-xl' onChange={handleChange}/>
         <input type="text" placeholder='email' defaultValue={currentUser.email} id='email' className='p-3 m-2 border rounded-lg shadow-xl' onChange={handleChange}/>
         <input type="password" placeholder='password' id='password' className='p-3 m-2 border rounded-lg shadow-xl' onChange={handleChange}/>
-        <button disabled ={ loading} className='p-3 m-2 text-white uppercase bg-pink-900 rounded-lg shadow-xl hover:opacity-80'> { loading? 'loading...':'update'}</button>
+        <button disabled ={ loading} className='p-3 m-2 text-white uppercase rounded-lg shadow-xl bg-slate-600 hover:opacity-80'> { loading? 'loading...':'update'}</button>
+        <Link className='p-3 m-2 text-center text-white uppercase bg-pink-900 rounded-lg shadow-xl hover:opacity-80 ' to={"/create-listing"}> Create Listing
+        </Link>
       </form>
       <div className='flex justify-between mt-5'>
        
