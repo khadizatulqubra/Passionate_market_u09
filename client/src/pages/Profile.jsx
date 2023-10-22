@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 export default function Profile() {
   const fileRef =useRef(null);
-  const {currentUser,loading,error} = useSelector(state => state.user);
+  const {currentUser,loading,error} = useSelector((state) => state.user);
   const [file,setFile]= useState(undefined);
   const [filePerc,setFilePerc]=useState(0);
   const [fileUploadError,setUploadError]=useState (false);

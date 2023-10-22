@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const listingSchema = new mongoose.Schema({
     
-        name: {
+        productName: {
             type: String,
             required: true,
         },
@@ -16,14 +16,27 @@ const listingSchema = new mongoose.Schema({
         },
         color: {
             type: String,
-            default: '#ff0088',
-            enum: ['#ff0088', '#00ff00', '#0000ff', '#ffff00', '#ff0000', '#00ffff'],
+            validate: {
+                validator: function (value) {
+                  // Regular expression to match valid hexadecimal color codes (e.g., #RRGGBB)
+                  const colorRegex = /^#([0-9a-fA-F]{3}){1,2}$/;
+                  return colorRegex.test(value);
+                },
+                message: 'Invalid color format. Please use a valid hexadecimal color code (e.g., #RRGGBB).',
+              },
         },
+
+      /*   type:{
+            type:String,
+            required:true,
+        }, */
+
+
         regularPrice: {
             type: Number,
             required: true,
         },
-        salePrice: {
+        discountPrice: {
             type: Number,
             required: true,
         },
