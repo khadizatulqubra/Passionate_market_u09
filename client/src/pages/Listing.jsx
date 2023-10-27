@@ -10,7 +10,7 @@ import {
   FaMapMarkerAlt,
   FaShare,
 } from 'react-icons/fa';
-// import Contact from '../components/Contact';
+ import Contact from '../components/Contact';
 
 // https://sabe.io/blog/javascript-format-numbers-commas#:~:text=The%20best%20way%20to%20format,format%20the%20number%20with%20commas.
 
@@ -23,6 +23,22 @@ export default function Listing() {
   const [contact, setContact] = useState(false);
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
+
+  const colorMapping = {
+    '#ffffff': 'White',
+    '#000000': 'Black',
+    '#26670e': 'Green',
+    '#ff0088': 'Pink',
+    '#ff0000': 'Red',
+    '#0000ff': 'Blue',
+    '#ffff00': 'Yellow',
+    '#ffa500': 'Orange',
+    '#800080': 'Purple',
+    '#808080': 'Gray',
+    
+    // Add more color codes and names as needed
+  };
+  
 
   useEffect(() => {
     const fetchListing = async () => {
@@ -86,12 +102,23 @@ export default function Listing() {
           )}
           <div className='flex flex-col max-w-4xl gap-4 p-3 mx-auto my-7'>
             <p className='text-2xl font-semibold'>
-              {listing.productName} - ${' '}
+              {listing.productName} - kr{' '}
               {listing.offer
                 ? listing.discountPrice.toLocaleString('en-US')
                 : listing.regularPrice.toLocaleString('en-US')}
             
             </p>
+         
+
+            <div className='flex gap-4'>
+               {listing.discountPrice && (
+                <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
+                  {+listing.regularPrice - +listing.discountPrice} <span className='font-extralight'>kr </span> OFF
+                </p>
+              )}
+              
+            
+            </div> 
 
             
             <p className='flex items-center gap-2 mt-6 text-sm text-slate-600'>
@@ -101,21 +128,14 @@ export default function Listing() {
             
             <p>
               <span className='font-semibold text-black'>color - </span>
-              {listing.color}
+              {colorMapping[listing.color] || listing.color}
             </p>
             
             <p>
-              <span className='font-semibold text-black'>pieces- </span>
+              <span className='font-semibold text-black'>Available Pieces- </span>
               {listing.pieces}
             </p>
-            <div className='flex gap-4'>
-              
-              {listing.discountPrice && (
-                <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
-                  ${+listing.regularPrice - +listing.discountPrice} OFF
-                </p>
-              )}
-            </div>
+           
             <p className='text-slate-800'>
               <span className='font-semibold text-black'>Category - </span>
               {listing.category}
@@ -125,16 +145,19 @@ export default function Listing() {
               {listing.description}
             </p>
           
-          
-          {/*   {currentUser && listing.userRef !== currentUser._id && !contact && (
+      
+            {currentUser && listing.userRef !== currentUser._id && !contact && (
               <button
                 onClick={() => setContact(true)}
-                className='p-3 text-white uppercase rounded-lg bg-slate-700 hover:opacity-95'
+                className='p-3 text-white uppercase bg-pink-700 rounded-xl hover:opacity-95'
               >
-                Contact landlord
+                Contact seller
               </button>
-            )}
-            {contact && <Contact listing={listing} />} */}
+            )} 
+           {contact && <Contact listing={listing} />}
+
+           
+          
           </div>
         </div>
       )} 
