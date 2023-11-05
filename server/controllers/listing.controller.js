@@ -69,36 +69,39 @@ import { errorHandler } from '../utils/error.js';
     }
   };
 
+
   export const getListings = async (req, res, next) => {
     try {
       const limit = parseInt(req.query.limit) || 9;
       const startIndex = parseInt(req.query.startIndex) || 0;
-      let offer = req.query.offer;
-  
-      if (offer === undefined || offer === 'false') {
-        offer = { $in: [false, true] };
-      }
-  
-      let type = req.query.type;
-  
-      if (type === undefined || type === 'all') {
-        type = { $in: ['discountPrice', 'regularPrice'] };
-      }
-  
       const searchTerm = req.query.searchTerm || '';
+      const type = req.query.type || 'all'; // Default to 'all' if type is not specified
   
-      const sort = req.query.sort || 'createdAt';
-  
-      const order = req.query.order || 'desc';
-  
-      const listings = await Listing.find({
-        name: { $regex: searchTerm, $options: 'i' },
-        offer,
-        color,
+      let filter = {};
       
-        type,
-      })
-        .sort({ [sort]: order })
+      // Apply filters based on query parameters
+      if (type === 'discountPrice') {
+        filter = { discountPrice: { $exists: true, $ne: null } };
+      } else if (type === 'regularPrice') {
+        filter = { discountPrice: null, regularPrice: { $exists: true, $ne: null } };
+      } else if (type === 'color') {
+        filter = { color: { $exists: true, $ne: null } };
+      }
+  
+      // Apply search term filter
+      if (searchTerm) {
+        filter = {
+          ...filter,
+          $or: [
+            { productName: { $regex: searchTerm, $options: 'i' } },
+            { description: { $regex: searchTerm, $options: 'i' } },
+          ],
+        };
+      }
+  
+      // Query the database using filters
+      const listings = await Listing.find(filter)
+        .sort({ createdAt: 'desc' }) // Sort by createdAt field in descending order
         .limit(limit)
         .skip(startIndex);
   
@@ -107,3 +110,4 @@ import { errorHandler } from '../utils/error.js';
       next(error);
     }
   };
+  

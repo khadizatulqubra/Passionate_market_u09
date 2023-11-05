@@ -11,9 +11,6 @@ import {
   FaShare,
 } from 'react-icons/fa';
  import Contact from '../components/Contact';
-
-// https://sabe.io/blog/javascript-format-numbers-commas#:~:text=The%20best%20way%20to%20format,format%20the%20number%20with%20commas.
-
 export default function Listing() {
   SwiperCore.use([Navigation]);
   const [listing, setListing] = useState(null);
@@ -24,20 +21,9 @@ export default function Listing() {
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
 
-  const colorMapping = {
-    '#ffffff': 'White',
-    '#000000': 'Black',
-    '#26670e': 'Green',
-    '#ff0088': 'Pink',
-    '#ff0000': 'Red',
-    '#0000ff': 'Blue',
-    '#ffff00': 'Yellow',
-    '#ffa500': 'Orange',
-    '#800080': 'Purple',
-    '#808080': 'Gray',
-    
-    // Add more color codes and names as needed
-  };
+  
+
+ 
   
 
   useEffect(() => {
@@ -111,11 +97,12 @@ export default function Listing() {
          
 
             <div className='flex gap-4'>
-               {listing.discountPrice && (
-                <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
-                  {+listing.regularPrice - +listing.discountPrice} <span className='font-extralight'>kr </span> OFF
-                </p>
-              )}
+            {listing.discountPrice && (
+  <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
+    {listing.discountPrice} <span className='font-extralight'>kr </span> OFF
+  </p>
+)}
+
               
             
             </div> 
@@ -126,10 +113,6 @@ export default function Listing() {
               {listing.address}
             </p>
             
-            <p>
-              <span className='font-semibold text-black'>color - </span>
-              {colorMapping[listing.color] || listing.color}
-            </p>
             
             <p>
               <span className='font-semibold text-black'>Available Pieces- </span>

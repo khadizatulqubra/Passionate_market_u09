@@ -234,7 +234,7 @@ export default function Profile() {
                 className='flex-1 font-semibold truncate text-slate-700 hover:underline'
                 to={`/listing/${listing._id}`}
               >
-                <p>{listing.name}</p>
+                <p>{listing.productName}</p>
               </Link>
               <div className='flex flex-col item-center'>
                 <button
