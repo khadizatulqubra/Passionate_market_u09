@@ -10,6 +10,8 @@ import CreateListing from './pages/CreateListing'
 import UpdateListing from './pages/UpdateListing'
 import Listing from './pages/Listing'
 import Search from './pages/Search'
+import Foot from './components/Foot'
+import ContactList from './pages/ContactList'
 
 export default function App() {
   return (
@@ -33,9 +35,10 @@ export default function App() {
           />
         </Route>
     
-
+       <Route  path="/contactList"element ={<ContactList/>}></Route>
        
       </Routes>
+      <Foot/>
     </BrowserRouter>
   )
   

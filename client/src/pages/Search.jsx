@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ListingItem from '../components/ListingItem';
 
@@ -6,9 +6,9 @@ const Search = () => {
   const navigate = useNavigate();
   const [sidebardata, setSidebardata] = useState({
     searchTerm: '',
-    type: 'all',
-    offer: false,
-    sort: 'createdAt_desc', // Default sorting order
+    sort: 'createdAt_desc',
+     // Default sorting order
+     order: 'desc'
   });
   const [loading, setLoading] = useState(false);
   const [listings, setListings] = useState([]);
@@ -17,22 +17,16 @@ const Search = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get('searchTerm');
-    const typeFromUrl = urlParams.get('type');
-      const offerFromUrl = urlParams.get('offer');
     const sortFromUrl = urlParams.get('sort');
     const orderFromUrl = urlParams.get('order');
 
     if (
       searchTermFromUrl ||
-      typeFromUrl ||
-       offerFromUrl ||
       sortFromUrl ||
       orderFromUrl
     ) {
       setSidebardata({
         searchTerm: searchTermFromUrl || '',
-        type: typeFromUrl || 'all',
-         offer: offerFromUrl === 'true' ? true : false,
         sort: sortFromUrl || 'created_at',
         order: orderFromUrl || 'desc',
       });
@@ -40,7 +34,8 @@ const Search = () => {
 
     const fetchListings = async () => {
       setLoading(true);
-      setShowMore(false);
+        setSidebardata(false)
+      
       const searchQuery = urlParams.toString();
       const res = await fetch(`/api/listing/get?${searchQuery}`);
       const data = await res.json();
@@ -57,13 +52,7 @@ const Search = () => {
   }, [location.search]);
 
   const handleChange = (e) => {
-    if (
-      e.target.id === 'all' ||
-      e.target.id === 'disconuntPrice' ||
-      e.target.id === 'regularPrice'
-    ) {
-      setSidebardata({ ...sidebardata, type: e.target.id });
-    }
+   
 
     if (e.target.id === 'searchTerm') {
       setSidebardata({ ...sidebardata, searchTerm: e.target.value });
@@ -83,10 +72,7 @@ const Search = () => {
     e.preventDefault();
     const urlParams = new URLSearchParams();
     urlParams.set('searchTerm', sidebardata.searchTerm);
-    urlParams.set('type', sidebardata.type);
-    urlParams.set('offer', sidebardata.offer);
     urlParams.set('sort', sidebardata.sort);
-    urlParams.set('order', sidebardata.order);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
   };
@@ -116,81 +102,25 @@ const Search = () => {
               type='text'
               id='searchTerm'
               placeholder='Search...'
-              className='w-full p-3 border rounded-lg'
+              className='w-auto p-3 border rounded-lg'
               value={sidebardata.searchTerm}
               onChange={handleChange}
             />
           </div>
-          {/* Type */}
-          <div className='flex flex-wrap items-center gap-2'>
-            <label className='font-semibold'>Type:</label>
-            {/* 'all' Checkbox */}
-            <div className='flex gap-2'>
-              <input
-                type='checkbox'
-                id='all'
-                className='w-5'
-                onChange={handleChange}
-                checked={sidebardata.type === 'all'}
-              />
-              <span>All</span>
-            </div>
-            {/* 'discountPrice' Checkbox */}
-            <div className='flex gap-2'>
-              <input
-                type='checkbox'
-                id='discountPrice'
-                className='w-5'
-                onChange={handleChange}
-                checked={sidebardata.type === 'discountPrice'}
-              />
-              <span>Discount Price</span>
-            </div>
-            {/* 'regularPrice' Checkbox */}
-            <div className='flex gap-2'>
-              <input
-                type='checkbox'
-                id='regularPrice'
-                className='w-5'
-                onChange={handleChange}
-                checked={sidebardata.type === 'regularPrice'}
-              />
-              <span>Regular Price</span>
-            </div>
-            {/* 'color' Checkbox */}
-            <div className='flex gap-2'>
-              <input
-                type='checkbox'
-                id='color'
-                className='w-5'
-                onChange={handleChange}
-                checked={sidebardata.type === 'color'}
-              />
-              <span>Color</span>
-            </div>
-          </div>
-          {/* Offer Checkbox */}
-          <div className='flex items-center gap-2'>
-            <label className='font-semibold'>Offer:</label>
-            <input
-              type='checkbox'
-              id='offer'
-              className='w-5'
-              onChange={handleChange}
-              checked={sidebardata.offer}
-            />
-          </div>
+       
+    
+         
           {/* Sort Order */}
           <div className='flex items-center gap-2'>
             <label className='font-semibold'>Sort:</label>
             <select
               onChange={handleChange}
-              defaultValue={'createdAt_desc'}
-              id='sort'
+              defaultValue={sidebardata.sort + '_' + sidebardata.order}
+              id='sort_order'
               className='p-3 border rounded-lg'
             >
-              <option value='createdAt_desc'>Latest</option>
-              <option value='createdAt_asc'>Oldest</option>
+              <option value='createdAt_desc_desc'>Latest</option>
+              <option value='createdAt_asc_desc'>Oldest</option>
             </select>
           </div>
           {/* Submit Button */}
@@ -200,7 +130,7 @@ const Search = () => {
         </form>
       </div>
       {/* Listing Results */}
-      <div className='flex-1'>
+      <div className='flex-2'>
         <h1 className='p-3 mt-5 text-3xl font-semibold border-b text-slate-700'>
           Listing results:
         </h1>

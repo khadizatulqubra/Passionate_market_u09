@@ -251,14 +251,14 @@ export default function CreateListing() {
               />
               <div className="flex flex-col items-center">
                 <p>Regular Price</p>
-                <span className="text-xs ">($/month)</span>
+                <span className="text-xs ">(kr per st)</span>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <input
                 type="number"
                 id="discountPrice"
-                min="5"
+                min="0"
                 max="10000"
                 required
                 className="p-3 border border-gray-300 rounded-lg"
@@ -267,7 +267,7 @@ export default function CreateListing() {
               />
               <div className="flex flex-col items-center">
                 <p>Discount Price</p>
-                <span className="text-xs ">($/month)</span>
+                <span className="text-xs ">(kr per st)</span>
               </div>
             </div>
           </div>

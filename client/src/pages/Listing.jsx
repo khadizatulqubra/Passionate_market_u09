@@ -21,6 +21,8 @@ export default function Listing() {
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
 
+console.log(listing?.userRef )
+
   
 
  
@@ -49,21 +51,24 @@ export default function Listing() {
   }, [params.listingId]);
 
   return (
-    <main>
+    <main >
       {loading && <p className='text-2xl text-center my-7'>Loading...</p>}
       {error && (
         <p className='text-2xl text-center my-7'>Something went wrong!</p>
       )}
       {listing && !loading && !error && (
-        <div>
+        <div className='shadow-lg rounded-xl'>
           <Swiper navigation>
             {listing.imageUrls.map((url) => (
               <SwiperSlide key={url}>
                 <div
-                  className='h-[550px]'
+                  className='h-[550px] mt-10 shadow-lg rounded-xl'
                   style={{
                     background: `url(${url}) center no-repeat`,
-                    backgroundSize: 'cover',
+                    backgroundSize: 'contain',
+                   
+                  
+                    
                   }}
                 ></div>
               </SwiperSlide>
