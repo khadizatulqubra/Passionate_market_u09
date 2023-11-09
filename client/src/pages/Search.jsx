@@ -130,7 +130,7 @@ const Search = () => {
         </form>
       </div>
       {/* Listing Results */}
-      <div className='flex-2'>
+      <div className='flex-1'>
         <h1 className='p-3 mt-5 text-3xl font-semibold border-b text-slate-700'>
           Listing results:
         </h1>
